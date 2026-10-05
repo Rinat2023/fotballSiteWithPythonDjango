@@ -1,0 +1,71 @@
+{% extends "appname/base.html" %}
+
+{% block content %}
+
+<div class="ticket-box">
+
+    <h1>🎟 Покупка билетов</h1>
+
+    <div class="match-info">
+        <h2>
+            {{ match.home_team }} —
+            {{ match.away_team }}
+        </h2>
+
+        <p>
+            {{ match.date|date:"d.m.Y H:i" }}
+        </p>
+    </div>
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        <label>Ваше имя</label>
+        <input
+            type="text"
+            name="name"
+            placeholder="Введите имя"
+            required
+        >
+
+        <label>Телефон</label>
+        <input
+            type="tel"
+            name="phone"
+            placeholder="+996 XXX XXX XXX"
+            required
+        >
+
+        <label>Email</label>
+        <input
+            type="email"
+            name="email"
+            placeholder="example@mail.com"
+            required
+        >
+
+        <label>Количество билетов</label>
+        <input
+            type="number"
+            name="quantity"
+            min="1"
+            max="10"
+            value="1"
+            required
+        >
+
+        <div class="ticket-price">
+            Цена одного билета:
+            <strong>1000 сом</strong>
+        </div>
+
+        <button type="submit" class="buy-button">
+            Купить билет
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

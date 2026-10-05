@@ -1,0 +1,45 @@
+{% extends "appname/base.html" %}
+
+{% block content %}
+
+<div class="success-box">
+
+    <div class="success-icon">✓</div>
+
+    <h1>Билет успешно куплен!</h1>
+
+    <p>
+        Спасибо, {{ order.name }}!
+    </p>
+
+    <p>
+        Матч:
+        <strong>
+            {{ order.match.home_team }}
+            —
+            {{ order.match.away_team }}
+        </strong>
+    </p>
+
+    <p>
+        Количество билетов:
+        <strong>{{ order.quantity }}</strong>
+    </p>
+
+    <p>
+        Сумма:
+        <strong>{{ order.total_price }} сом</strong>
+    </p>
+
+    <p>
+        Ваш билет будет отправлен на:
+        <strong>{{ order.email }}</strong>
+    </p>
+
+    <a href="/" class="button">
+        Вернуться на главную
+    </a>
+
+</div>
+
+{% endblock %}

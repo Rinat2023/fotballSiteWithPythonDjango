@@ -1,0 +1,126 @@
+{% extends "appname/base.html" %}
+
+
+{% block title %}
+{{ match.home_team.name }} — {{ match.away_team.name }}
+{% endblock %}
+
+
+{% block content %}
+
+<h1>🏟️ Статистика матча</h1>
+<a
+    href="{% url 'buy_ticket' match.id %}"
+    class="buy-ticket-button"
+>
+    🎟 Купить билет
+</a>
+
+<div class="card">
+
+    <div class="match">
+
+        <div class="team">
+            {{ match.home_team.name }}
+        </div>
+
+        <div>
+
+            <div class="score">
+                {{ match.home_score }}
+                :
+                {{ match.away_score }}
+            </div>
+
+            <div class="status">
+                {{ match.get_status_display }}
+            </div>
+
+        </div>
+
+        <div class="team">
+            {{ match.away_team.name }}
+        </div>
+
+    </div>
+
+</div>
+
+
+<h2>📊 Статистика</h2>
+
+
+<div class="card">
+
+    <p>
+        Владение:
+        {{ match.possession_home }}%
+        —
+        {{ match.possession_away }}%
+    </p>
+
+    <hr><br>
+
+    <p>
+        Удары:
+        {{ match.shots_home }}
+        —
+        {{ match.shots_away }}
+    </p>
+
+    <br>
+
+    <p>
+        Удары в створ:
+        {{ match.shots_on_target_home }}
+        —
+        {{ match.shots_on_target_away }}
+    </p>
+
+    <br>
+
+    <p>
+        Угловые:
+        {{ match.corners_home }}
+        —
+        {{ match.corners_away }}
+    </p>
+
+    <br>
+
+    <p>
+        Фолы:
+        {{ match.fouls_home }}
+        —
+        {{ match.fouls_away }}
+    </p>
+
+    <br>
+
+    <p>
+        🟨 Жёлтые карточки:
+        {{ match.yellow_home }}
+        —
+        {{ match.yellow_away }}
+    </p>
+
+    <br>
+
+    <p>
+        🟥 Красные карточки:
+        {{ match.red_home }}
+        —
+        {{ match.red_away }}
+    </p>
+
+</div>
+
+
+<a
+    href="{% url 'home' %}"
+    class="button"
+>
+    ← Назад
+</a>
+
+{% endblock %}

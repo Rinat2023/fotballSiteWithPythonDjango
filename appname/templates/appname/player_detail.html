@@ -1,0 +1,92 @@
+{% extends "appname/base.html" %}
+
+
+{% block title %}
+{{ player.name }}
+{% endblock %}
+
+
+{% block content %}
+
+<h1>👤 {{ player.name }}</h1>
+
+
+<div class="card">
+
+    <h2>{{ player.name }}</h2>
+
+    <p>
+        🏟️ Клуб:
+        {{ player.team.name }}
+    </p>
+
+    <p>
+        🌍 Страна:
+        {{ player.country }}
+    </p>
+
+    <p>
+        📍 Позиция:
+        {{ player.get_position_display }}
+    </p>
+
+    <p>
+        🎂 Возраст:
+        {{ player.age }}
+    </p>
+
+    <p>
+        📏 Рост:
+        {{ player.height }} см
+    </p>
+
+    <p>
+        ⚖️ Вес:
+        {{ player.weight }} кг
+    </p>
+
+</div>
+
+
+<h2>📊 Статистика</h2>
+
+
+<div class="card">
+
+    <p>
+        🏟️ Матчи:
+        {{ player.matches }}
+    </p>
+
+    <br>
+
+    <p>
+        ⚽ Голы:
+        {{ player.goals }}
+    </p>
+
+    <br>
+
+    <p>
+        🎯 Ассисты:
+        {{ player.assists }}
+    </p>
+
+    <br>
+
+    <p>
+        ⭐ Рейтинг:
+        <strong>{{ player.rating }}</strong>
+    </p>
+
+</div>
+
+
+<a
+    href="{% url 'home' %}"
+    class="button"
+>
+    ← Назад
+</a>
+
+{% endblock %}

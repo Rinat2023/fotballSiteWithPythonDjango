@@ -1,0 +1,52 @@
+{% extends "appname/base.html" %}
+
+{% block content %}
+
+<div class="auth-box">
+
+    <h1>Вход</h1>
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        {% if form.errors %}
+            <div class="error-message">
+                Неверное имя пользователя или пароль.
+            </div>
+        {% endif %}
+
+        <label>Имя пользователя</label>
+
+        <input
+            type="text"
+            name="username"
+            required
+            autocomplete="username"
+        >
+
+        <label>Пароль</label>
+
+        <input
+            type="password"
+            name="password"
+            required
+            autocomplete="current-password"
+        >
+
+        <button type="submit" class="auth-button">
+            Войти
+        </button>
+
+    </form>
+
+    <p class="auth-link">
+        Нет аккаунта?
+        <a href="{% url 'register' %}">
+            Зарегистрироваться
+        </a>
+    </p>
+
+</div>
+
+{% endblock %}

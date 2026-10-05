@@ -1,0 +1,30 @@
+{% extends "appname/base.html" %}
+
+{% block content %}
+
+<div class="auth-box">
+
+    <h1>Регистрация</h1>
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit" class="auth-button">
+            Зарегистрироваться
+        </button>
+
+    </form>
+
+    <p class="auth-link">
+        Уже есть аккаунт?
+        <a href="{% url 'login' %}">
+            Войти
+        </a>
+    </p>
+
+</div>
+
+{% endblock %}

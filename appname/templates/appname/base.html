@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}Football Hub{% endblock %}</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    color: #111827;
+
+    background-image:
+        linear-gradient(
+            rgba(0, 30, 10, 0.65),
+            rgba(0, 20, 5, 0.65)
+        ),
+        url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4qBvgVCK2jEt6vFWwID_pFp-FAFToshBcvBtjwD5-OIVFQ3zsQG0hHa-x&s=10");
+
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+
+    min-height: 100vh;
+}
+
+header {
+    background: rgba(17, 24, 39, 0.95);
+    color: white;
+    padding: 20px 0;
+}
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: auto;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 25px;
+}
+
+nav a:hover {
+    color: #22c55e;
+}
+
+main {
+    padding: 40px 0;
+}
+
+h1 {
+    margin-bottom: 25px;
+}
+
+h2 {
+    margin: 30px 0 15px;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+.match {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.team {
+    width: 35%;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.score {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.status {
+    color: #16a34a;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.players {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.player {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.player-photo {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.rating {
+    font-size: 24px;
+    font-weight: bold;
+    color: #16a34a;
+}
+
+.button {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 15px;
+    background: #111827;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+}
+
+.button:hover {
+    background: #16a34a;
+}
+
+
+/* ========================= */
+/* КНОПКА ПОКУПКИ БИЛЕТА */
+/* ========================= */
+
+.buy-ticket-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 14px 24px;
+    background: #16a34a;
+    color: white !important;
+    text-decoration: none;
+    border-radius: 10px;
+    font-size: 17px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.buy-ticket-button:hover {
+    background: #15803d;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(22, 163, 74, 0.4);
+}
+
+
+/* ========================= */
+/* СТРАНИЦА ПОКУПКИ */
+/* ========================= */
+
+.ticket-box {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 35px;
+    background: rgba(255, 255, 255, 0.97);
+    border-radius: 18px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+}
+
+.ticket-box h1 {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.match-info {
+    background: #f1f5f9;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.match-info h2 {
+    margin: 0 0 10px;
+}
+
+.match-info p {
+    color: #64748b;
+}
+
+
+/* Поля формы */
+
+.ticket-box label {
+    display: block;
+    margin-top: 18px;
+    margin-bottom: 7px;
+    font-weight: bold;
+}
+
+.ticket-box input {
+    width: 100%;
+    padding: 13px 15px;
+    border: 1px solid #d1d5db;
+    border-radius: 9px;
+    font-size: 16px;
+    outline: none;
+    transition: 0.2s;
+}
+
+.ticket-box input:focus {
+    border-color: #16a34a;
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15);
+}
+
+
+/* Цена */
+
+.ticket-price {
+    margin-top: 22px;
+    padding: 16px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 10px;
+    color: #166534;
+}
+
+.ticket-price strong {
+    float: right;
+}
+
+
+/* Кнопка */
+
+.buy-button {
+    width: 100%;
+    margin-top: 22px;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    background: #16a34a;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.buy-button:hover {
+    background: #15803d;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(22, 163, 74, 0.35);
+}
+
+
+/* ========================= */
+/* УСПЕШНАЯ ПОКУПКА */
+/* ========================= */
+
+.success-box {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.97);
+    border-radius: 18px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+    text-align: center;
+}
+
+.success-icon {
+    width: 75px;
+    height: 75px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: #16a34a;
+    color: white;
+    font-size: 45px;
+    line-height: 75px;
+}
+
+.success-box h1 {
+    margin-bottom: 20px;
+}
+
+.success-box p {
+    margin: 15px 0;
+    color: #374151;
+}
+
+.success-box strong {
+    color: #111827;
+}
+
+/* ========================= */
+/* КАРУСЕЛЬ ФУТБОЛИСТОВ */
+/* ========================= */
+
+.players-carousel {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+}
+
+.players-track {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    padding: 10px 5px 20px;
+}
+
+.players-track::-webkit-scrollbar {
+    display: none;
+}
+
+.player-card {
+    flex: 0 0 calc((100% - 40px) / 3);
+    min-width: 280px;
+
+    background: rgba(255, 255, 255, 0.97);
+    border-radius: 16px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.15);
+
+    transition: transform 0.3s ease,
+                box-shadow 0.3s ease;
+}
+
+.player-card:hover {
+    transform: translateY(-7px);
+
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.25);
+}
+
+.player-card .player-photo {
+    width: 100%;
+    height: 280px;
+
+    object-fit: cover;
+
+    display: block;
+
+    border-radius: 0;
+    margin: 0;
+}
+
+.player-card-info {
+    padding: 20px;
+    position: relative;
+}
+
+.player-card-info h3 {
+    font-size: 21px;
+    margin-bottom: 7px;
+}
+
+.player-team {
+    color: #64748b;
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+
+.player-position {
+    display: inline-block;
+
+    padding: 5px 10px;
+
+    background: #dcfce7;
+    color: #166534;
+
+    border-radius: 20px;
+
+    font-size: 13px;
+    font-weight: bold;
+
+    margin-bottom: 15px;
+}
+
+.player-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 8px;
+
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.player-stats div {
+    text-align: center;
+
+    padding: 8px 5px;
+
+    background: #f8fafc;
+
+    border-radius: 8px;
+}
+
+.player-stats span {
+    display: block;
+
+    color: #64748b;
+
+    font-size: 11px;
+
+    margin-bottom: 4px;
+}
+
+.player-stats strong {
+    font-size: 16px;
+}
+
+.player-rating {
+    font-size: 24px;
+    font-weight: bold;
+
+    color: #16a34a;
+
+    margin-bottom: 12px;
+}
+
+.player-rating span {
+    color: #f59e0b;
+}
+
+.player-button {
+    display: block;
+
+    width: 100%;
+
+    padding: 11px;
+
+    text-align: center;
+
+    background: #111827;
+    color: white;
+
+    text-decoration: none;
+
+    border-radius: 8px;
+
+    font-weight: bold;
+
+    transition: 0.3s;
+}
+
+.player-button:hover {
+    background: #16a34a;
+}
+
+.carousel-button {
+    flex-shrink: 0;
+
+    width: 45px;
+    height: 45px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: #111827;
+    color: white;
+
+    font-size: 24px;
+
+    cursor: pointer;
+
+    z-index: 5;
+
+    transition: 0.3s;
+}
+
+.carousel-button:hover {
+    background: #16a34a;
+
+    transform: scale(1.08);
+}
+
+.no-players {
+    padding: 30px;
+
+    color: white;
+
+    text-align: center;
+}
+
+
+/* ========================= */
+/* АДАПТИВНОСТЬ */
+/* ========================= */
+
+@media (max-width: 900px) {
+
+    .player-card {
+        flex: 0 0 calc((100% - 20px) / 2);
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .players-carousel {
+        gap: 5px;
+    }
+
+    .player-card {
+        flex: 0 0 85%;
+        min-width: 0;
+    }
+
+    .player-card .player-photo {
+        height: 250px;
+    }
+
+    .carousel-button {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+
+}
+
+/* ========================= */
+/* АВТОРИЗАЦИЯ */
+/* ========================= */
+
+.auth-box {
+    width: 100%;
+    max-width: 450px;
+
+    margin: 50px auto;
+
+    padding: 35px;
+
+    background: rgba(255, 255, 255, 0.97);
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.25);
+}
+
+.auth-box h1 {
+    text-align: center;
+
+    margin-bottom: 25px;
+}
+
+.auth-box label {
+    display: block;
+
+    margin-top: 15px;
+    margin-bottom: 7px;
+
+    font-weight: bold;
+}
+
+.auth-box input {
+    width: 100%;
+
+    padding: 13px 15px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 9px;
+
+    font-size: 16px;
+
+    outline: none;
+}
+
+.auth-box input:focus {
+    border-color: #16a34a;
+
+    box-shadow:
+        0 0 0 3px rgba(22, 163, 74, 0.15);
+}
+
+.auth-box p {
+    margin-top: 15px;
+}
+
+.auth-box ul {
+    margin: 10px 0;
+
+    padding-left: 20px;
+
+    color: #64748b;
+
+    font-size: 14px;
+}
+
+.auth-button {
+    width: 100%;
+
+    margin-top: 20px;
+
+    padding: 14px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #16a34a;
+
+    color: white;
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.auth-button:hover {
+    background: #15803d;
+
+    transform: translateY(-2px);
+}
+
+.auth-link {
+    text-align: center;
+
+    color: #64748b;
+}
+
+.auth-link a {
+    color: #16a34a;
+
+    font-weight: bold;
+
+    text-decoration: none;
+}
+
+.auth-link a:hover {
+    text-decoration: underline;
+}
+
+.error-message {
+    padding: 12px;
+
+    margin-bottom: 15px;
+
+    border-radius: 8px;
+
+    background: #fee2e2;
+
+    color: #991b1b;
+
+    text-align: center;
+}
+
+.user-name {
+    color: white;
+
+    margin-left: 25px;
+
+    font-weight: bold;
+}
+
+
+/* ========================= */
+/* АДАПТАЦИЯ ПОД ТЕЛЕФОН */
+/* ========================= */
+
+@media (max-width: 700px) {
+
+    .players {
+        grid-template-columns: 1fr;
+    }
+
+    .navbar {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .ticket-box {
+        width: 90%;
+        padding: 25px;
+    }
+
+    .success-box {
+        width: 90%;
+        padding: 25px;
+    }
+
+    .match {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .team {
+        width: 100%;
+    }
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="container navbar">
+
+        <div class="logo">
+            ⚽ Football Hub
+        </div>
+
+        <nav>
+
+    <a href="/">Главная</a>
+
+    {% if user.is_authenticated %}
+
+        <span class="user-name">
+            👤 {{ user.username }}
+        </span>
+
+        <a href="{% url 'logout' %}">
+            Выйти
+        </a>
+
+    {% else %}
+
+        <a href="{% url 'login' %}">
+            Войти
+        </a>
+
+        <a href="{% url 'register' %}">
+            Регистрация
+        </a>
+
+    {% endif %}
+
+</nav>
+
+    </div>
+
+</header>
+
+
+<main>
+
+    <div class="container">
+
+        {% block content %}
+        {% endblock %}
+
+    </div>
+
+</main>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const track = document.querySelector(".players-track");
+    const nextButton = document.querySelector(".carousel-next");
+    const prevButton = document.querySelector(".carousel-prev");
+
+    if (!track || !nextButton || !prevButton) {
+        return;
+    }
+
+    const scrollAmount = 320;
+    const autoScrollTime = 2000;
+
+    let autoScroll;
+
+
+    function moveNext() {
+
+        const maxScroll =
+            track.scrollWidth - track.clientWidth;
+
+        if (track.scrollLeft >= maxScroll - 10) {
+
+            track.scrollTo({
+                left: 0,
+                behavior: "smooth"
+            });
+
+        } else {
+
+            track.scrollBy({
+                left: scrollAmount,
+                behavior: "smooth"
+            });
+
+        }
+    }
+
+
+    function movePrev() {
+
+        if (track.scrollLeft <= 10) {
+
+            track.scrollTo({
+                left: track.scrollWidth,
+                behavior: "smooth"
+            });
+
+        } else {
+
+            track.scrollBy({
+                left: -scrollAmount,
+                behavior: "smooth"
+            });
+
+        }
+    }
+
+
+    function startAutoScroll() {
+
+        autoScroll = setInterval(
+            moveNext,
+            autoScrollTime
+        );
+
+    }
+
+
+    function stopAutoScroll() {
+
+        clearInterval(autoScroll);
+
+    }
+
+
+    nextButton.addEventListener(
+        "click",
+        function () {
+
+            moveNext();
+
+            stopAutoScroll();
+            startAutoScroll();
+
+        }
+    );
+
+
+    prevButton.addEventListener(
+        "click",
+        function () {
+
+            movePrev();
+
+            stopAutoScroll();
+            startAutoScroll();
+
+        }
+    );
+
+
+    /* Пауза, когда пользователь навёл мышку */
+
+    track.addEventListener(
+        "mouseenter",
+        stopAutoScroll
+    );
+
+
+    track.addEventListener(
+        "mouseleave",
+        startAutoScroll
+    );
+
+
+    /* Запускаем автоматическую прокрутку */
+
+    startAutoScroll();
+
+});
+</script>
+</body>
+</html>
